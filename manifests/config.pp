@@ -10,4 +10,13 @@ class tor::config inherits tor {
     group   => 'root',
     mode    => '0755',
   }
+
+  file { $tor::instances_data_dir:
+    ensure  => directory,
+    purge   => true,
+    recurse => true,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+  }
 }

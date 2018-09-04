@@ -5,4 +5,5 @@ class tor::params {
 
   $config_dir = '/etc/tor'
   $instances_config_dir = "${config_dir}/instances"
+  $instances_data_dir   = '/var/lib/tor-instances'
 }

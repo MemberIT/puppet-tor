@@ -5,6 +5,7 @@ class tor (
 
   String $config_dir = $tor::params::config_dir,
   String $instances_config_dir = $tor::params::instances_config_dir,
+  String $instances_data_dir = $tor::params::instances_data_dir,
 
   Hash $instances = {}
 ) inherits tor::params {

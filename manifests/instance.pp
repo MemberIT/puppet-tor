@@ -9,6 +9,7 @@ define tor::instance (
 
   if $ensure == 'present' {
     $config_dir_ensure = 'directory'
+    $data_dir_ensure = 'directory'
 
     $config_file_ensure = 'file'
 
@@ -20,6 +21,7 @@ define tor::instance (
     # stop the associated service
 
     $config_dir_ensure = 'absent'
+    $data_dir_ensure = 'absent'
 
     $config_file_ensure = 'absent'
 
@@ -40,6 +42,17 @@ define tor::instance (
     $config_file = "${config_dir}/torrc"
     $config_file_owner = "_tor-${name}"
     $config_file_group = "_tor-${name}"
+    $data_dir = "${::tor::instances_data_dir}/${name}"
+
+    group { $config_file_group:
+      ensure => present,
+      system => true,
+    }
+
+    user { $config_file_owner:
+      ensure => present,
+      system => true,
+    }
 
     ensure_resource('file', $::tor::instances_config_dir, {
       ensure  => directory,
@@ -58,6 +71,14 @@ define tor::instance (
       group   => $config_file_group,
       mode    => '0750',
     }
+
+    file { $data_dir:
+      ensure  => $data_dir_ensure,
+      owner   => $config_file_owner,
+      group   => $config_file_group,
+      mode    => '0750',
+    }
+
   }
 
   file { $config_file:
